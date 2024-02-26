@@ -7,7 +7,7 @@ function AgeInSeconds() {
       // Function to calculate age in seconds
       const calculateAgeInSeconds = () => {
         const age = new Date().getTime() - new Date("2002-12-22").getTime();
-        const ageInYears = (age / (1000 * 365 * 24 * 60 * 60)).toFixed(20);
+        const ageInYears = (age / (1000 * 365 * 24 * 60 * 60)).toFixed(18);
         setAgeInSeconds(ageInYears);
       };
 

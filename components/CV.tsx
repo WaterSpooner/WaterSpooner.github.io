@@ -1,24 +1,39 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export function CV() {
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setHeight(window.innerHeight);
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
 
   return (
-    <div>
+    <div className=' w-auto h-auto'>
         <div className='flex justify-center mb-5 '>
         <a className='bg-slate-600 rounded-lg p-1 text-white' href="/cv.pdf" download="cv">Download CV</a>
         </div>
 
       <Document file="CV.pdf" onLoadSuccess={onDocumentLoadSuccess}>
-      <Page pageIndex={pageNumber} 
+      <Page height={(height < width) ? height : 0} width={(height > width) ? width*0.8 : 0} pageIndex={pageNumber} 
       renderTextLayer={false}
       renderAnnotationLayer={false}
       />
