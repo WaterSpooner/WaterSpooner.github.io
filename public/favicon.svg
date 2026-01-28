@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="100%"
+   height="100%"
+   viewBox="0 0 100.0001 100.0001"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"><inkscape:page
+       x="0"
+       y="0"
+       width="100.0001"
+       height="100.0001"
+       id="page2"
+       margin="0"
+       bleed="0" /></sodipodi:namedview><defs
+     id="defs1" /><g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-64.955206,-45.844748)"><path
+       id="path2"
+       style="fill:#45c2fe;fill-opacity:1;stroke-width:0.264583"
+       inkscape:label="path2"
+       d="m 114.95526,45.844747 c -27.614274,-2.7e-5 -50.000077,22.385775 -50.000052,50.000049 -2.8e-5,27.614274 22.385776,50.000074 50.000052,50.000044 27.61428,3e-5 50.00008,-22.38577 50.00005,-50.000044 2e-5,-27.614274 -22.38577,-50.000076 -50.00005,-50.000049 z m 0,11.000362 c 3.1921,3e-5 6.27153,0.363338 9.21184,1.034045 l -0.0594,22.120614 17.3514,17.351396 V 66.841915 c 7.74852,7.050743 12.49592,17.298735 12.49587,29.002881 5e-5,11.704134 -4.74736,21.952024 -12.49587,29.002884 l -5.2e-4,-12.95218 -26.50329,-26.503296 -9.21856,9.218559 V 57.883289 c 2.94301,-0.673608 6.02467,-1.038191 9.21856,-1.03818 z M 88.451449,66.858968 V 124.84871 C 80.702506,117.79784 75.95501,107.54931 75.955054,95.844796 75.955013,84.157774 80.705618,73.912902 88.451449,66.858968 Z m 26.503811,42.732272 19.99981,19.99982 c -5.79417,3.3505 -12.60377,5.25387 -19.99981,5.25394 -7.39616,3e-5 -14.20606,-1.90291 -20.000332,-5.25343 z" /></g></svg>

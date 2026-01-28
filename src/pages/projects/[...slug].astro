@@ -1,0 +1,35 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import { render } from 'astro:content';
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Layout from '@layouts/Layout.astro';
+import WIP from '@components/WIP.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('project');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'project'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<ProjectLayout {...post.data}>
+	<Content />
+</ProjectLayout>
+
+<style>
+
+	:global(a) {
+		text-decoration: none;
+		color: var(--primary);
+		font-weight: bold;
+	}
+
+
+
+</style>

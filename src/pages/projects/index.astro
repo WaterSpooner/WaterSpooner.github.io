@@ -1,0 +1,68 @@
+---
+import Layout from "@layouts/Layout.astro";
+import ProjectCard from "../../components/card/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection('project');
+---
+
+<Layout>
+    <h1> Projects </h1>
+    <ul>
+        {projects.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).map((project) => (
+            <li>
+                <ProjectCard
+                    title={project.data.title}
+                    date={project.data.date}
+                    href={`/projects/${project.id}/`}
+                    image={project.data.image}
+                />
+            </li>
+        ))}
+    </ul>
+</Layout>
+
+
+
+<style>
+    h1 {
+        display: none;
+    }
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        width: calc(100lvw*0.5);
+        list-style: none;
+        flex-wrap: wrap;
+        padding: 0;
+        justify-content: space-between;
+        margin: 0 auto;
+    }
+
+    li {
+        width: calc(50% - 2rem);
+        padding: 1rem;
+    }
+
+    li:first-child {
+        width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            display: block;
+            margin: 0;
+        }
+
+        ul{
+            width: 100%;
+            justify-content: center;
+        }
+        li {
+            width: 100%;
+            font-size: 1.5rem;
+        }
+    }
+
+</style>

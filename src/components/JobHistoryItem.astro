@@ -1,0 +1,54 @@
+---
+// src/components/ExperienceItem.astro
+const { title, company, dates, description } = Astro.props;
+---
+
+<div class="experience-item">
+    <div class="header">
+        <h3>{title}</h3>
+        <span class="dates">{dates}</span>
+    </div>
+    <p class="company">{company}</p>
+    <p class="description">{description}</p>
+</div>
+
+<style>
+    .experience-item {
+        margin-bottom: 2rem;
+    }
+
+    .experience-item .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .experience-item h3 {
+        margin: 0;
+    }
+
+    .experience-item .dates {
+        font-size: 0.9em;
+        color: var(--secondary);
+    }
+
+    .experience-item .company {
+        font-weight: bold;
+        margin: 0.25rem 0;
+        color: var(--secondary);
+    }
+
+    .experience-item .description {
+        margin-top: 0.25rem;
+        color: var(--text);
+    }
+
+    @media (max-width: 768px){
+        .experience-item .header {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+    }
+
+</style>

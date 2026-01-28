@@ -1,0 +1,47 @@
+---
+const {
+  title,
+  description,
+  keywords = '',
+  author = '',
+  robots = 'index, follow',
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = '',
+  ogUrl = '',
+  twitterCard = 'summary_large_image',
+  twitterTitle = title,
+  twitterDescription = description,
+  twitterImage = '',
+  themeColor = '#000000',
+  canonicalUrl = '',
+  favicon = '/favicon.svg',
+} = Astro.props;
+---
+<head>
+  <script is:inline>
+    (function() {
+      const theme = localStorage.getItem('theme-preference') || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="keywords" content={keywords}>
+  <meta name="author" content={author}>
+  <meta name="robots" content={robots}>
+  <meta property="og:title" content={ogTitle}>
+  <meta property="og:description" content={ogDescription}>
+  <meta property="og:image" content={ogImage}>
+  <meta property="og:url" content={ogUrl}>
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content={twitterCard}>
+  <meta name="twitter:title" content={twitterTitle}>
+  <meta name="twitter:description" content={twitterDescription}>
+  <meta name="twitter:image" content={twitterImage}>
+  <meta name="theme-color" content={themeColor}>
+  {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+  <link rel="icon" href={favicon} type="image/x-icon">
+</head>

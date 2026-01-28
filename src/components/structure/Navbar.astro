@@ -1,0 +1,182 @@
+---
+import NavLink from "./NavLink.astro";
+const pathname = "/" + Astro.url.pathname.split("/")[1];
+import MaxLogo from "../../assets/logos/max-logo.svg";
+import ThemeSwitch from "../ThemeSwitch.astro";
+import "../../styles/global.css";
+---
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 80px;
+  }
+
+  .header-wrapper {
+    background-color: var(--background);
+    position: sticky;
+    z-index: 10000;
+    top: 0;
+  }
+
+  .progress-bar {
+    background-color: var(--accent);
+    width: 0;
+    transition: width 0.15s ease-out;
+    display: block;
+    height: 3px;
+  }
+
+  .header-wrapper.scrolled {
+    background-color: var(--background);
+    box-shadow: 0 2px 8px var(--accent);
+  }
+
+  .left-item {
+    position: absolute;
+    left: 2rem;
+    height: 60%;
+    aspect-ratio: 1;
+  }
+
+  .center-items {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .right-item {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    cursor: pointer;
+  }
+
+  .theme-switch {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .theme-switch {
+      display: flex;
+      align-self: center;
+      right: 5rem;
+    }
+
+    .header {
+      justify-content: flex-start;
+    }
+
+    .center-items a {
+      border-bottom: 1px solid var(--text);
+      width: 100%;
+    }
+
+    .center-items {
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      z-index: 500;
+      display: flex;
+      gap: 1rem;
+      flex-direction: column;
+      position: absolute;
+      top: 100px;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(-20px);
+      visibility: hidden;
+      transition: none;
+
+    }
+
+    .right-item {
+      display: flex;
+      align-self: center;
+      height: 50px;
+      aspect-ratio: 1;
+    }
+
+    .toggle-checkbox:checked ~ .center-items {
+      background: var(--background);
+      opacity: 1;
+      transform: translateY(-20px);
+      visibility: visible;
+      transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.5s ease;
+    }
+    .toggle-checkbox:not(:checked) ~ .center-items {
+      opacity: 0;
+      transform: translateY(-40px);
+      visibility: hidden;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s, background-color 0.5s ease;
+    }
+
+    path {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform-origin: center;
+    }
+
+    .toggle-checkbox:checked ~ .right-item path.top {
+      transform: rotate(45deg) translateY(6px);
+    }
+
+    .toggle-checkbox:checked ~ .right-item path.bottom {
+      transform: rotate(-45deg) translateY(-6px);
+    }
+
+    .toggle-checkbox:checked ~ .right-item path.middle {
+      fill: transparent;
+      opacity: 0;
+    }
+
+  }
+</style>
+<div class="header-wrapper" id="navbar">
+<div class="header">
+  <a class="left-item" href="/">
+    <MaxLogo />
+  </a>
+  <input type="checkbox" id="menu-toggle" class="toggle-checkbox" hidden>
+  <label for="menu-toggle" class="right-item">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path class="bottom" d="M4 18L20 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path class="middle" d="M4 12L20 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path class="top" d="M4 6L20 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </label>
+  <div class="center-items">
+    <NavLink href="/">About</NavLink>
+    <NavLink href="/projects">Projects</NavLink>
+    <NavLink href="/tools">Tools</NavLink>
+  </div>
+  <div class="theme-switch">
+    <ThemeSwitch />
+  </div>
+</div>
+  <span id="progress-bar" class="progress-bar"></span>
+  <script is:inline>
+    const progress = document.getElementById("progress-bar");
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const maxY =document.documentElement.scrollHeight - window.innerHeight;
+      const clampedY = Math.min(scrollY, maxY);
+
+      const width = (clampedY/ maxY) * 100;
+      progress.style.width =  `${width}%`;
+    });
+  </script>
+</div>
+

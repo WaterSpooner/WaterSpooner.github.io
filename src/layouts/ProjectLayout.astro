@@ -1,0 +1,71 @@
+---
+import "@styles/global.css";
+import Layout from '@layouts/Layout.astro';
+import type {CollectionEntry} from "astro:content";
+import { Image } from 'astro:assets';
+import { datetimeRegex } from "astro:schema";
+type Props = CollectionEntry<'project'>['data'];
+
+
+const { title, description, date, image } = Astro.props;
+
+const formattedDate = (date.getTime() !== 0) ? date.toLocaleDateString("en-UK") : "TBD";
+---
+
+<Layout>
+    <article>
+        <a href="/projects"> ← Back to Projects</a>
+        <div class="intro">
+            <Image
+               class="project-image"
+               src={image}
+               alt="project image"
+               
+
+            />
+            <h1> {title} </h1>
+            <h4>{formattedDate}</h4>
+        </div>
+        <slot />
+    </article>
+</Layout>
+
+
+<style>
+
+.project-image {
+    width: 100%;
+    height: auto;
+    max-height: 60vh;
+    object-fit: contain;
+}
+
+.intro {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h4 {
+    padding: 0;
+    margin: 0;
+    color: grey;
+}
+
+h1{
+    margin-bottom: 0;
+    margin-top: 0.2em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+article {
+    padding: 1em;
+    border-radius: 1em;
+}
+
+</style>

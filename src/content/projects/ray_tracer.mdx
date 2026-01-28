@@ -1,0 +1,120 @@
+---
+title: "Rust Ray Tracer"
+description: "Building a ray tracer in Rust following Ray Tracing in One Weekend"
+date: 2024-10-15T10:00:00.000+0100
+image: "@assets/render.png"
+---
+
+### Introduction
+
+This project is a ray tracer implementation in Rust, following Peter Shirley's excellent book "Ray Tracing in One Weekend". The goal was to learn more about computer graphics fundamentals while taking advantage of Rust's performance and safety features.
+
+### What is Ray Tracing?
+
+Ray tracing is a rendering technique that simulates the way light travels in the real world. By tracing the path of light rays as they bounce around a scene, we can create photorealistic images with:
+
+- Realistic reflections and refractions
+- Natural shadows and lighting
+- Depth of field effects
+- Anti-aliasing for smooth edges
+
+### Key Features Implemented
+
+- **Basic ray-sphere intersection**: The foundation of the ray tracer
+- **Multiple materials**: Lambertian (diffuse), metal, and dielectric (glass) surfaces
+- **Camera with adjustable FOV**: Control the perspective and field of view
+- **Antialiasing**: Multiple samples per pixel for smoother images
+- **Positionable camera**: Look at the scene from any angle
+
+```rust
+pub struct Ray {
+    pub origin: Vec3,
+    pub direction: Vec3,
+}
+
+impl Ray {
+    pub fn at(&self, t: f64) -> Vec3 {
+        self.origin + t * self.direction
+    }
+}
+```
+
+### Performance Optimizations
+
+Rust's zero-cost abstractions made it possible to write clean, readable code without sacrificing performance:
+
+- **Parallel rendering**: Used the `rayon` crate to parallelize pixel rendering across CPU cores
+- **SIMD operations**: Leveraged Rust's type system for vectorized math operations
+- **Memory efficiency**: No garbage collection overhead, predictable performance
+
+```rust
+use rayon::prelude::*;
+
+let pixels: Vec<Color> = (0..height)
+    .into_par_iter()
+    .flat_map(|j| {
+        (0..width).into_par_iter().map(move |i| {
+            render_pixel(i, j, &world, &camera, samples_per_pixel)
+        })
+    })
+    .collect();
+```
+
+### Materials and Shading
+
+Implementing different material types was one of the most interesting parts:
+
+- **Lambertian (Diffuse)**: Scatters light randomly in all directions
+- **Metal**: Reflects rays with optional fuzziness for realistic metallic surfaces
+- **Dielectric**: Handles refraction for glass-like materials using Snell's law
+
+```rust
+pub trait Material: Send + Sync {
+    fn scatter(&self, ray: &Ray, hit: &HitRecord) -> Option<(Color, Ray)>;
+}
+
+pub struct Metal {
+    pub albedo: Color,
+    pub fuzz: f64,
+}
+
+impl Material for Metal {
+    fn scatter(&self, ray: &Ray, hit: &HitRecord) -> Option<(Color, Ray)> {
+        let reflected = reflect(ray.direction.unit(), hit.normal);
+        let scattered = Ray::new(hit.point, reflected + self.fuzz * random_in_unit_sphere());
+        
+        if scattered.direction.dot(&hit.normal) > 0.0 {
+            Some((self.albedo, scattered))
+        } else {
+            None
+        }
+    }
+}
+```
+
+### Lessons Learned
+
+**Rust's Ownership System**: Initially challenging but invaluable for preventing common bugs like data races and null pointer dereferences.
+
+**Performance Matters**: The difference between a naive implementation and an optimized one was dramatic - from hours to minutes for the same scene.
+
+**Math is Fun**: Implementing vector operations, ray-sphere intersections, and Fresnel equations from scratch deepened my understanding of 3D graphics.
+
+### Results
+
+The final ray tracer can render complex scenes with multiple objects, materials, and lighting in reasonable time. A 1920x1080 image with 100 samples per pixel renders in about 2-3 minutes on a modern CPU.
+
+### Next Steps
+
+Future improvements I'd like to implement:
+
+- **Bounding Volume Hierarchies (BVH)**: Speed up ray-object intersection tests
+- **Texture mapping**: Add support for image textures on surfaces
+- **More primitives**: Triangles, boxes, and mesh loading
+- **GPU acceleration**: Port to Vulkan or WGPU for real-time rendering
+
+### Resources
+
+- [Ray Tracing in One Weekend](https://raytracing.github.io/)
+- [The Rust Programming Language Book](https://doc.rust-lang.org/book/)
+- [Source code on GitHub](https://github.com/WaterSpooner/rust_renderer)  
