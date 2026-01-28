@@ -16,6 +16,9 @@ const projects = await getCollection('project');
         </div>
         <LogoAnimate />
     </div>
+    <div class="about-me">
+        <p>I am a <span class="date-output"></span> Year old Software Engineer from London, UK. I have experience building full-stack web applications and utlising cloud systems to improve scalability and reliability. I am also passionate about computer graphics and performance optimisations.</p>
+    </div>
 
     <div class="content-sections">
         <section class="experience">
@@ -25,25 +28,31 @@ const projects = await getCollection('project');
                 title="Junior Software Engineer"
                 company="ID Business Solutions"
                 dates="2024 – 2025"
-                description="Led development of scalable internal tools for tracking software metrics using AWS services. Collaborated with security and DevOps teams to streamline vulnerability tracking."
+                description={
+                    [
+                        "Reduced internal deployment time of data science web application from 25 minutes to 5 minutes.",
+                        "Helped overhaul cloud architecture of legacy service to improve data integrity enabling application to be used by more clients.",
+                        "Helped deliver high-priority project from proof of concept to release, using IoT technology to enhance data integration from clients' on-premises devices."
+                    ]
+                }
             />
             <ExperienceItem
                 title="Bachelors In Computer Science"
                 company="University of Bath"
                 dates="2022 – 2026"
-                description="Contributed to front-end features for a React-based dashboard. Wrote automated tests and worked closely with senior engineers to improve app performance."
+                description={["Ranked among the top 10 students in first year with an average grade of 86%."]}
             />
             <ExperienceItem
                     title="LawTech Intern"
                     company="Macfarlanes"
                     dates="2022 – 2022"
-                    description="Contributed to front-end features for a React-based dashboard. Wrote automated tests and worked closely with senior engineers to improve app performance."
+                    description={["Integrated React into existing vanilla JavaScript webpages, improving UI functionality and maintainability."]}
             />
             <ExperienceItem
-                title="IT Technition"
+                title="IT Technician"
                 company="St. Andrew's School Woking"
                 dates="2021 – 2022"
-                description="Contributed to front-end features for a React-based dashboard. Wrote automated tests and worked closely with senior engineers to improve app performance."
+                description={["Overhauled legacy server infrastructure, supporting over 300 students and 60 staff members to ensure reliable daily operations."]}
             />
         </section>
 
@@ -72,6 +81,12 @@ const projects = await getCollection('project');
     p {
         margin: 0;
         color: gray;
+    }
+
+    .about-me p{
+        margin: 5rem;
+        color: var(--text);
+        font-size: 3vh;
     }
 
     .bio {
@@ -122,4 +137,12 @@ const projects = await getCollection('project');
             margin: 5%;
         }
     }
+
 </style>
+
+<script type="text/javascript" is:inline>
+  const now = new Date();
+  const bd = Date.parse("12/22/2002");
+  const diff = Math.floor((now - bd) / (1000*60*60*24*365.25));
+  document.getElementsByClassName('date-output')[0].textContent = diff;
+</script>

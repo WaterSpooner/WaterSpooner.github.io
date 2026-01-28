@@ -11,7 +11,7 @@ interface Props {
 
 const { title, date, image, href} = Astro.props;
 
-const formattedDate = date ? date.toLocaleDateString("en-UK") : "TBD";
+const formattedDate = (date.getTime() !== 0) ? date.toLocaleDateString("en-UK") : "TBD";
 ---
 
 <style>

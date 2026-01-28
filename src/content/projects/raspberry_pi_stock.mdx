@@ -39,32 +39,6 @@ The system follows a simple yet effective serverless pattern:
 4. If new stock detected, publishes message to SNS topic
 5. SNS sends notifications to all subscribers
 
-```python
-import boto3
-import feedparser
-from datetime import datetime
-
-def lambda_handler(event, context):
-    # Initialize SNS client
-    sns = boto3.client('sns')
-    topic_arn = os.environ['SNS_TOPIC_ARN']
-    
-    # Fetch RSS feed
-    feed = feedparser.parse(RSS_FEED_URL)
-    
-    # Check for new stock
-    for entry in feed.entries:
-        if is_in_stock(entry):
-            message = f"Raspberry Pi in stock: {entry.title}\n{entry.link}"
-            sns.publish(
-                TopicArn=topic_arn,
-                Subject="🎉 Raspberry Pi Stock Alert!",
-                Message=message
-            )
-    
-    return {'statusCode': 200, 'body': 'Check complete'}
-```
-
 ### Installation & Setup
 
 **Prerequisites:**
@@ -113,35 +87,16 @@ resource "aws_cloudwatch_event_rule" "stock_check_schedule" {
 
 Change `rate(60 minutes)` to your desired frequency (e.g., `rate(30 minutes)` for more frequent checks).
 
-### Cost Analysis
-
-Running this project is extremely cost-effective:
-
-- **Lambda**: ~$0.20/month (720 invocations @ 512MB memory)
-- **SNS**: First 1,000 notifications free, then $0.50 per 1M after
-- **CloudWatch**: Minimal costs for scheduling
-
-**Total estimated cost: < $1/month**
-
-### Lessons Learned
-
-**Serverless is Perfect for This**: No need to maintain a server running 24/7. Lambda only runs when needed, keeping costs minimal.
-
-**RSS Feeds are Powerful**: Many retailers still provide RSS feeds for stock updates, making them perfect for automation.
-
-**Terraform Simplifies AWS**: Infrastructure as Code made it easy to tear down and redeploy the entire stack when testing.
-
 ### Future Enhancements
 
 - Add support for multiple RSS feeds/retailers
 - Implement DynamoDB for state persistence
 - Create a web dashboard to view stock history
 - Add Discord/Slack webhook notifications
-- Implement exponential backoff for rate limiting
 
 ### Results
 
-This tracker successfully helped me (and several friends) snag Raspberry Pi 4s during the height of the chip shortage. The automated notifications arrived within minutes of stock appearing, giving a crucial advantage over manual checking.
+This tracker successfully helped me buy Raspberry Pi 4s during the height of the chip shortage. The automated notifications arrived within minutes of stock appearing, giving a crucial advantage over manual checking.
 
 ### Source Code
 

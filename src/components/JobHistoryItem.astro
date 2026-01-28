@@ -9,7 +9,8 @@ const { title, company, dates, description } = Astro.props;
         <span class="dates">{dates}</span>
     </div>
     <p class="company">{company}</p>
-    <p class="description">{description}</p>
+    {description.map((d: any) => (<p class="description">{d}</p>))}
+    
 </div>
 
 <style>
@@ -39,8 +40,14 @@ const { title, company, dates, description } = Astro.props;
     }
 
     .experience-item .description {
-        margin-top: 0.25rem;
+        margin: 0.0rem;
         color: var(--text);
+    }
+
+    .experience-item .description::before {
+        content: "- ";
+        position: absolute;
+        transform: translateX(-1em);
     }
 
     @media (max-width: 768px){
