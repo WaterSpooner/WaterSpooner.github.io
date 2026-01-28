@@ -4,6 +4,7 @@ import Layout from '@layouts/Layout.astro';
 import type {CollectionEntry} from "astro:content";
 import { Image } from 'astro:assets';
 import { datetimeRegex } from "astro:schema";
+import type { ACTION_ERROR_CODES } from "astro:actions";
 type Props = CollectionEntry<'project'>['data'];
 
 
@@ -12,7 +13,7 @@ const { title, description, date, image } = Astro.props;
 const formattedDate = (date.getTime() !== 0) ? date.toLocaleDateString("en-UK") : "TBD";
 ---
 
-<Layout>
+<Layout {...Astro.props}>
     <article>
         <a href="/projects"> ← Back to Projects</a>
         <div class="intro">

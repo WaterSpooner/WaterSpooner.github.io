@@ -18,7 +18,7 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 
-<ProjectLayout {...post.data}>
+<ProjectLayout {...post.data} title={post.data.title} description={post.data.description} twitterImage={post.data.image.src}>
 	<Content />
 </ProjectLayout>
 

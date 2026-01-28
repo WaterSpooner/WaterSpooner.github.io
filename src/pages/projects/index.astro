@@ -6,7 +6,7 @@ import { getCollection } from "astro:content";
 const projects = await getCollection('project');
 ---
 
-<Layout>
+<Layout title="Projects" description="A collection of my projects">
     <h1> Projects </h1>
     <ul>
         {projects.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).map((project) => (

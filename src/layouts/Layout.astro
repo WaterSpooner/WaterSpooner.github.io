@@ -3,10 +3,16 @@ import "@styles/global.css";
 import Navbar from '@components/structure/Navbar.astro';
 import Footer from "@components/structure/Footer.astro";
 import Head from '@components/structure/Head.astro';
+
+const props = Astro.props;
+const {
+  title = "Max Spooner",
+  description = "About Me",
+} = props;
 ---
 <!DOCTYPE html>
 <html lang="en" transition:persist>
-  <Head title="Max Spooner" description="Your page description" />
+  <Head title={title} description={description} {...props} />
   <body class="layout">
     <Navbar />
     <main class="content">
