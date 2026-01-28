@@ -1,9 +1,0 @@
-import {CV} from '../components/CV'
-import styles from '../styles/Home.module.css'
-export default function Home() {
-  return (
-    <div className={styles.background}>
-      <CV/>
-    </div>
-  )
-}

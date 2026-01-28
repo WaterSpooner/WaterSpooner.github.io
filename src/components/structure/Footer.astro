@@ -1,0 +1,63 @@
+---
+import GithubSVG from '../../assets/logos/github-logo.svg';
+import LinkedinSVG from '../../assets/logos/linkedin-logo.svg';
+---
+
+<style>
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    margin-top: auto;
+    padding: 0 1rem;
+  }
+
+  .left-items {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .floating-links {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--secondary);
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.3rem 0.1rem;
+
+  z-index: 1000;
+}
+
+.floating-links a {
+  padding: 0.3rem 0.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  width: 1.5rem;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.floating-links a:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+</style>
+<div>
+<div class="footer">
+  <div class="left-items">
+    © Max Spooner
+  </div>
+</div>
+<div class="floating-links">
+  <a href="https://github.com/WaterSpooner" class="icon-link" aria-label="GitHub"><GithubSVG class="icon" /></a>
+  <a href="https://linkedin.com/in/max-spooner-30177a1b8" class="icon-link" aria-label="LinkedIn"><LinkedinSVG class="icon" /></a>
+</div>
+</div>

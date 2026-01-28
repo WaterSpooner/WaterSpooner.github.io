@@ -1,0 +1,57 @@
+---
+import "@styles/global.css";
+import Navbar from "@components/structure/Navbar.astro";
+import Footer from "@components/structure/Footer.astro";
+import Head from "@components/structure/Head.astro";
+---
+
+<!DOCTYPE html>
+<html lang="en" transition:persist>
+<Head></Head>
+
+<body class="layout">
+<Navbar />
+
+<div class="page-layout">
+    <main class="content">
+        <slot />
+    </main>
+</div>
+
+<Footer />
+</body>
+</html>
+
+<style>
+    .layout {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        background: var(--background);
+        color: var(--text);
+        transition: background-color 0.5s ease;
+        width: 100%;
+    }
+
+    .page-layout {
+        display: flex;
+        flex: 1;
+        width: 100%;
+        min-height: 90vh;
+    }
+
+    .content {
+        flex: 1;
+        padding: var(--space);
+        background-color: var(--background);
+        color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+        .content {
+            width: 100%;
+            padding: 1rem;
+        }
+    }
+</style>

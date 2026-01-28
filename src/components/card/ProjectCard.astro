@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import "../../styles/global.css";
+
+interface Props {
+    title: string;
+    date: Date;
+    image: ImageMetadata;
+    href: string;
+}
+
+const { title, date, image, href} = Astro.props;
+
+const formattedDate = date ? date.toLocaleDateString("en-UK") : "TBD";
+---
+
+<style>
+    a {
+        display: block;
+        height: 100%;
+        width: 100%;
+        text-decoration: none;
+        color: inherit;
+        --scale: 1;
+        --text: var(--text);
+    }
+
+    .post-image-wrapper {
+        aspect-ratio: 16 / 8;
+        overflow: hidden;
+        border-radius: 1rem;
+    }
+
+    a:hover {
+        --scale: 1.1;
+        --text: var(--accent);
+    }
+
+    .post-image {
+        object-position: center;
+        width: 100%;
+        object-fit: cover;
+        height: auto;
+        display: block;
+        scale: var(--scale);
+        transition: all 0.5s ease-in-out;
+        border-radius: 1rem;
+    }
+
+    .post-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: bolder;
+    }
+
+    .post-content h4 {
+        color: var(--text);
+        transition: all 0.5s ease-in-out;
+        margin: 0.5rem 0 0 0;
+        font-size: 2rem;
+    }
+
+    .post-content p {
+        margin: 0;
+        color: dimgray;
+    }
+
+</style>
+<div class="post-card">
+    <a href={href}>
+        <div class="post-image-wrapper">
+            <Image
+                class="post-image"
+                src={image}
+                alt={title}
+                widths={[320, 640, 960, 1280]}
+                sizes="(max-width: 640px) 100vw, 50vw"
+            />
+        </div>
+        <div class="post-content">
+            <h4 class="title">{title}</h4>
+            <p class="date">•{formattedDate}•</p>
+        </div>
+    </a>
+</div>

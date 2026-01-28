@@ -1,0 +1,148 @@
+---
+title: "Raspberry Pi Tracker"
+description: "AWS Lambda-powered RSS feed monitor for Raspberry Pi stock availability"
+date: 2024-08-20T10:00:00.000+0100
+image: "@assets/stock_architecture.png"
+---
+
+### Overview
+
+This project uses an AWS Lambda function to track an RSS feed and provide real-time updates on Raspberry Pi stock availability via AWS SNS. During the chip shortage, finding Raspberry Pi boards in stock was nearly impossible - this automated tracker solved that problem by monitoring stock feeds 24/7 and sending instant notifications.
+
+### Features
+
+- **RSS Feed Monitoring**: Automatically checks RSS feeds for Raspberry Pi stock updates
+- **Instant Notifications**: Sends SMS/email alerts when new stock is available via AWS SNS
+- **Serverless Architecture**: Leverages AWS Lambda for scalability and cost-effectiveness
+- **Infrastructure as Code**: Uses Terraform for easy deployment and management
+- **Scheduled Checks**: CloudWatch runs the Lambda every 60 minutes (configurable)
+
+### Technology Stack
+
+**AWS Services Used:**
+- **AWS Lambda**: Runs the Python stock tracking script serverlessly
+- **Amazon SNS**: Sends notifications to subscribers when stock is found
+- **Amazon CloudWatch**: Schedules Lambda execution (default: every 60 minutes)
+
+**Development Tools:**
+- Python 3.13
+- Terraform for infrastructure management
+- AWS SDK (boto3) for AWS service integration
+
+### Architecture
+
+The system follows a simple yet effective serverless pattern:
+
+1. CloudWatch triggers the Lambda function on a schedule
+2. Lambda fetches and parses the RSS feed
+3. Compares current stock with previous state
+4. If new stock detected, publishes message to SNS topic
+5. SNS sends notifications to all subscribers
+
+```python
+import boto3
+import feedparser
+from datetime import datetime
+
+def lambda_handler(event, context):
+    # Initialize SNS client
+    sns = boto3.client('sns')
+    topic_arn = os.environ['SNS_TOPIC_ARN']
+    
+    # Fetch RSS feed
+    feed = feedparser.parse(RSS_FEED_URL)
+    
+    # Check for new stock
+    for entry in feed.entries:
+        if is_in_stock(entry):
+            message = f"Raspberry Pi in stock: {entry.title}\n{entry.link}"
+            sns.publish(
+                TopicArn=topic_arn,
+                Subject="🎉 Raspberry Pi Stock Alert!",
+                Message=message
+            )
+    
+    return {'statusCode': 200, 'body': 'Check complete'}
+```
+
+### Installation & Setup
+
+**Prerequisites:**
+- AWS account with appropriate permissions
+- Python 3.13 installed locally
+- Terraform installed
+- AWS CLI configured
+
+**Step 1: Clone the repository**
+```bash
+git clone https://github.com/WaterSpooner/RaspberryPiStock.git
+cd RaspberryPiStock
+```
+
+**Step 2: Install Python dependencies**
+```bash
+cd lambda
+pip install -r requirements.txt -t .
+```
+
+**Step 3: Configure AWS credentials**
+```bash
+aws configure
+```
+
+**Step 4: Deploy infrastructure**
+```bash
+terraform init
+terraform plan
+terraform apply
+```
+
+After deployment, Terraform will output the SNS topic ARN. Subscribe to this topic to receive notifications!
+
+### Configuration
+
+The CloudWatch schedule can be customized in the Terraform configuration:
+
+```hcl
+resource "aws_cloudwatch_event_rule" "stock_check_schedule" {
+  name                = "raspberry-pi-stock-check"
+  description         = "Trigger Lambda every 60 minutes"
+  schedule_expression = "rate(60 minutes)"
+}
+```
+
+Change `rate(60 minutes)` to your desired frequency (e.g., `rate(30 minutes)` for more frequent checks).
+
+### Cost Analysis
+
+Running this project is extremely cost-effective:
+
+- **Lambda**: ~$0.20/month (720 invocations @ 512MB memory)
+- **SNS**: First 1,000 notifications free, then $0.50 per 1M after
+- **CloudWatch**: Minimal costs for scheduling
+
+**Total estimated cost: < $1/month**
+
+### Lessons Learned
+
+**Serverless is Perfect for This**: No need to maintain a server running 24/7. Lambda only runs when needed, keeping costs minimal.
+
+**RSS Feeds are Powerful**: Many retailers still provide RSS feeds for stock updates, making them perfect for automation.
+
+**Terraform Simplifies AWS**: Infrastructure as Code made it easy to tear down and redeploy the entire stack when testing.
+
+### Future Enhancements
+
+- Add support for multiple RSS feeds/retailers
+- Implement DynamoDB for state persistence
+- Create a web dashboard to view stock history
+- Add Discord/Slack webhook notifications
+- Implement exponential backoff for rate limiting
+
+### Results
+
+This tracker successfully helped me (and several friends) snag Raspberry Pi 4s during the height of the chip shortage. The automated notifications arrived within minutes of stock appearing, giving a crucial advantage over manual checking.
+
+### Source Code
+
+[View on GitHub](https://github.com/WaterSpooner/RaspberryPiStock)  

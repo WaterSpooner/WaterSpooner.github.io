@@ -1,0 +1,125 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LogoAnimate from "@components/logo-animate.astro";
+import ExperienceItem from "@components/JobHistoryItem.astro";
+import ProjectCard from "@components/card/ProjectCardHome.astro";
+import { getCollection } from "astro:content";
+const projects = await getCollection('project');
+---
+
+<Layout>
+    <div class="about-wrapper">
+        <div class="bio">
+            <p>Hi I'm</p>
+            <h1>Max</h1>
+            <h1>Spooner</h1>
+        </div>
+        <LogoAnimate />
+    </div>
+
+    <div class="content-sections">
+        <section class="experience">
+            <h2>Experience</h2>
+
+            <ExperienceItem
+                title="Junior Software Engineer"
+                company="ID Business Solutions"
+                dates="2024 – 2025"
+                description="Led development of scalable internal tools for tracking software metrics using AWS services. Collaborated with security and DevOps teams to streamline vulnerability tracking."
+            />
+            <ExperienceItem
+                title="Bachelors In Computer Science"
+                company="University of Bath"
+                dates="2022 – 2026"
+                description="Contributed to front-end features for a React-based dashboard. Wrote automated tests and worked closely with senior engineers to improve app performance."
+            />
+            <ExperienceItem
+                    title="LawTech Intern"
+                    company="Macfarlanes"
+                    dates="2022 – 2022"
+                    description="Contributed to front-end features for a React-based dashboard. Wrote automated tests and worked closely with senior engineers to improve app performance."
+            />
+            <ExperienceItem
+                title="IT Technition"
+                company="St. Andrew's School Woking"
+                dates="2021 – 2022"
+                description="Contributed to front-end features for a React-based dashboard. Wrote automated tests and worked closely with senior engineers to improve app performance."
+            />
+        </section>
+
+        <section class="projects">
+            <h2>Projects</h2>
+            <div class="projects-grid">
+                {projects.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0,3).map((project) => (
+                    <ProjectCard
+                            title={project.data.title}
+                            description={project.data.description}
+                            href={`/projects/${project.id}/`}
+                            image={project.data.image}
+                    />
+                ))}
+            </div>
+        </section>
+    </div>
+</Layout>
+
+<style>
+    h1 {
+        margin: 0;
+        line-height: 80%;
+    }
+
+    p {
+        margin: 0;
+        color: gray;
+    }
+
+    .bio {
+        font-size: 4vh;
+        height: 700px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+    }
+
+    .about-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .content-sections {
+        margin: 0 auto;
+        font-size: 2.5vh;
+    }
+
+    .content-sections section {
+        margin: 5rem;
+    }
+
+    .content-sections h2 {
+        color: var(--accent);
+        margin-bottom: 1rem;
+        font-size: 3vh;
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 0.5rem;
+    }
+
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .content-sections section {
+            margin: 5%;
+        }
+    }
+</style>
