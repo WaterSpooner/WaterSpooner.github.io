@@ -15,7 +15,8 @@ const {
   twitterImage = ogImage,
   themeColor = '#000000',
   canonicalUrl = '',
-  favicon = '/favicon.svg',
+  faviconSvg = '/favicon.svg',
+  faviconPng = '/favicon.png',
 } = Astro.props;
 ---
 <head>
@@ -43,5 +44,6 @@ const {
   <meta name="twitter:image" content={twitterImage}>
   <meta name="theme-color" content={themeColor}>
   {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-  <link rel="icon" href={favicon} type="image/x-icon">
+  <link rel="icon" type="image/png" href={faviconPng}>
+  <link rel="icon" type="image/svg+xml" href={faviconSvg}>
 </head>
